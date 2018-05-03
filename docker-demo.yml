@@ -3,7 +3,6 @@ kind: Namespace
 metadata:
   name: docker-demo
 ---
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -43,30 +42,29 @@ spec:
           value: dockerdemo
         ports:
         - containerPort: 8080
-#          hostPort: 8080
----
-apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
-metadata:
-  namespace: docker-demo
-  name: netshoot-deploy
-  labels:
-    app: netshoot
-spec:
-  selector:
-    matchLabels:
-      app: netshoot
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: netshoot
-    spec:
-      containers:
-      - image: nicolaka/netshoot
-        name: netshoot
-        command: ["ping","localhost"]
+#---
+#apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+#kind: Deployment
+#metadata:
+#  namespace: docker-demo
+#  name: netshoot-deploy
+#  labels:
+#    app: netshoot
+#spec:
+#  selector:
+#    matchLabels:
+#      app: netshoot
+#  strategy:
+#    type: Recreate
+#  template:
+#    metadata:
+#      labels:
+#        app: netshoot
+#    spec:
+#      containers:
+#      - image: nicolaka/netshoot
+#        name: netshoot
+#        command: ["ping","localhost"]
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
