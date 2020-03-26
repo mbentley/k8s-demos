@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: se-mattbentley
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: se-mattbentley
+  name: docker-demo-svc
+spec:
+  selector:
+    app: dockerdemo
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: se-mattbentley
+  name: dockerdemo-deploy
+  labels:
+    app: dockerdemo-deploy
+spec:
+  selector:
+    matchLabels:
+      app: dockerdemo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dockerdemo
+    spec:
+      containers:
+      - image: ehazlett/docker-demo
+        name: docker-demo-container
+        env:
+        - name: app
+          value: dockerdemo
+        ports:
+        - containerPort: 8080
