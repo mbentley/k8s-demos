@@ -35,7 +35,7 @@ spec:
         app: dockerdemo
     spec:
       containers:
-      - image: ehazlett/docker-demo
+      - image: mbentley/tomcat7
         name: docker-demo-container
         env:
         - name: app
