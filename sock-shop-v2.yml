@@ -693,18 +693,24 @@ spec:
     targetPort: 80
   selector:
     name: user
-#---
-#apiVersion: apps/v1
-#kind: Ingress
-#metadata:
-#  namespace: sock-shop
-#  name: sock-shop-ingress
-#spec:
-#  rules:
-#  - host: sock-shop-k8s.demo.dckr.org # http://sock-shop-k8s.demo.dckr.org/
-#    http:
-#      paths:
-#      - path: /
-#        backend:
-#          serviceName: front-end
-#          servicePort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sock-shop
+  namespace: sock-shop
+spec:
+  ingressClassName: default
+  rules:
+  - host: sock-shop-k8s.demo.dckr.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: front-end
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}
