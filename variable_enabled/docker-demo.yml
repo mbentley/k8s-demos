@@ -56,10 +56,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - docker-demo.home-wl1.tkg.vmware.work.mbentley.net
-    secretName: docker-demo.home-wl1.tkg.vmware.work.mbentley.net
+    - docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    secretName: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
   rules:
-  - host: docker-demo.home-wl1.tkg.vmware.work.mbentley.net
+  - host: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
     http:
       paths:
         - pathType: Prefix

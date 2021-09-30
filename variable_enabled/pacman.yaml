@@ -132,10 +132,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pacman.home-wl1.tkg.vmware.work.mbentley.net
-    secretName: pacman.home-wl1.tkg.vmware.work.mbentley.net
+    - pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    secretName: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
   rules:
-  - host: pacman.home-wl1.tkg.vmware.work.mbentley.net
+  - host: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
     http:
       paths:
         - pathType: Prefix
