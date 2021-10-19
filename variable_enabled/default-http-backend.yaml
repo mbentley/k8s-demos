@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default-http-backend
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: default-http-backend
+  name: default-http-backend
+spec:
+  selector:
+    app: default-http-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default-http-backend
+  name: default-http-backend
+  labels:
+    app: default-http-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default-http-backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default-http-backend
+    spec:
+      containers:
+      - image: mbentley/nginx-output-text
+        name: default-http-backend
+        env:
+        - name: OUTPUT_TEXT
+          value: "Default Contour Backend"
+        ports:
+        - containerPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default-http-backend
+  name: default-http-backend
+  annotations:
+    cert-manager.io/cluster-issuer: "zerossl"
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/ingress.class: "contour"
+spec:
+  tls:
+  - hosts:
+    - "*.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"
+    secretName: ${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  rules:
+  - host: "*.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"
+    http:
+      paths:
+        - pathType: Prefix
+          path: /
+          backend:
+            service:
+              name: default-http-backend
+              port:
+                number: 80
