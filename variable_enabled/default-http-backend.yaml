@@ -40,7 +40,7 @@ spec:
         name: default-http-backend
         env:
         - name: OUTPUT_TEXT
-          value: "Default Contour Backend"
+          value: "Default Contour Backend - ${TKG_CLUSTER}"
         ports:
         - containerPort: 80
 ---
