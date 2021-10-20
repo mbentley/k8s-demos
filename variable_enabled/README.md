@@ -6,6 +6,9 @@ Example deployment:
 
 ```
 export TKG_CLUSTER="home-wl1"
-envsubst < docker-demo.yml | kubectl apply -f -
-envsubst < pacman.yaml | kubectl apply -f -
+kubectl create ns docker-demo
+envsubst < docker-demo.yml | kubectl -n docker-demo apply -f -
+
+kubectl create ns pacman
+envsubst < pacman.yaml | kubectl -n pacman apply -f -
 ```

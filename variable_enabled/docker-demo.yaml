@@ -1,16 +1,10 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: docker-demo
----
 kind: Service
 apiVersion: v1
 metadata:
-  namespace: docker-demo
-  name: docker-demo-svc
+  name: docker-demo
 spec:
   selector:
-    app: dockerdemo
+    app: docker-demo
   ports:
   - protocol: TCP
     port: 8080
@@ -19,36 +13,36 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: docker-demo
-  name: dockerdemo-deploy
+  name: docker-demo
   labels:
-    app: dockerdemo-deploy
+    app: docker-demo
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: dockerdemo
+      app: docker-demo
   strategy:
     type: Recreate
   template:
     metadata:
+      annotations:
+        traffic.sidecar.istio.io/excludeInboundPorts: "8080"
       labels:
-        app: dockerdemo
+        app: docker-demo
     spec:
       containers:
       - image: mbentley/docker-demo:visual
         name: docker-demo-container
         env:
         - name: app
-          value: dockerdemo
+          value: docker-demo
         ports:
         - containerPort: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: docker-demo
-  name: dockerdemo-ingress
+  name: docker-demo
   annotations:
     cert-manager.io/cluster-issuer: "zerossl"
     ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -66,6 +60,6 @@ spec:
           path: /
           backend:
             service:
-              name: docker-demo-svc
+              name: docker-demo
               port:
                 number: 8080

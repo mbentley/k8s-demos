@@ -1,15 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: pacman
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: mongo-storage
-  namespace: pacman
 spec:
-#  storageClassName: "hostpath"
   accessModes:
     - ReadWriteOnce
   resources:
@@ -22,7 +15,6 @@ metadata:
   labels:
     name: mongo
   name: mongo
-  namespace: pacman
 spec:
   replicas: 1
   selector:
@@ -62,7 +54,6 @@ metadata:
   labels:
     name: mongo
   name: mongo
-  namespace: pacman
 spec:
   type: ClusterIP
   ports:
@@ -77,7 +68,6 @@ metadata:
   labels:
     name: pacman
   name: pacman
-  namespace: pacman
 spec:
   replicas: 1
   selector:
@@ -85,6 +75,8 @@ spec:
       name: pacman
   template:
     metadata:
+      annotations:
+        traffic.sidecar.istio.io/excludeInboundPorts: "80"
       labels:
         name: pacman
     spec:
@@ -110,7 +102,6 @@ metadata:
   name: pacman
   labels:
     name: pacman
-  namespace: pacman
 spec:
   type: ClusterIP
   ports:
@@ -128,7 +119,6 @@ metadata:
     cert-manager.io/cluster-issuer: "zerossl"
     ingress.kubernetes.io/force-ssl-redirect: "true"
     kubernetes.io/ingress.class: "contour"
-  namespace: pacman
 spec:
   tls:
   - hosts:
