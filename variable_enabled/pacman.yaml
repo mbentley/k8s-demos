@@ -76,7 +76,7 @@ spec:
   template:
     metadata:
       annotations:
-        traffic.sidecar.istio.io/excludeInboundPorts: "80"
+        traffic.sidecar.istio.io/excludeInboundPorts: "8080"
       labels:
         name: pacman
     spec:
