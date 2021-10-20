@@ -29,7 +29,7 @@ spec:
     matchLabels:
       app: docker-demo
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       annotations:
