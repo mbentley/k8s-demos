@@ -39,27 +39,41 @@ spec:
         ports:
         - containerPort: 8080
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
 metadata:
   name: docker-demo
-  annotations:
-    cert-manager.io/cluster-issuer: "zerossl"
-    ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: "contour"
 spec:
-  tls:
-  - hosts:
-    - docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    secretName: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-  rules:
-  - host: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    http:
-      paths:
-        - pathType: Prefix
-          path: /
-          backend:
-            service:
-              name: docker-demo
-              port:
-                number: 8080
+  virtualhost:
+    fqdn: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    tls:
+      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  routes:
+    - services:
+        - name: docker-demo
+          port: 8080
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: docker-demo
+#  annotations:
+#    cert-manager.io/cluster-issuer: "zerossl"
+#    ingress.kubernetes.io/force-ssl-redirect: "true"
+#    kubernetes.io/ingress.class: "contour"
+#spec:
+#  tls:
+#  - hosts:
+#    - docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#  rules:
+#  - host: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    http:
+#      paths:
+#        - pathType: Prefix
+#          path: /
+#          backend:
+#            service:
+#              name: docker-demo
+#              port:
+#                number: 8080

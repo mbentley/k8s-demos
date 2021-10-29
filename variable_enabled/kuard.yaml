@@ -32,41 +32,55 @@ spec:
     protocol: TCP
   selector:
     app: kuard
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: kuard-lb
+#spec:
+#  ports:
+#  - port: 80
+#    targetPort: 8080
+#    protocol: TCP
+#  selector:
+#    app: kuard
+#  type: LoadBalancer
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: kuard-lb
-spec:
-  ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
-  selector:
-    app: kuard
-  type: LoadBalancer
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
 metadata:
   name: kuard
-  annotations:
-    cert-manager.io/cluster-issuer: "zerossl"
-    ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: "contour"
 spec:
-  tls:
-  - hosts:
-    - kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    secretName: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-  rules:
-  - host: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kuard
-            port:
-              number: 80
+  virtualhost:
+    fqdn: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    tls:
+      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  routes:
+    - services:
+        - name: kuard
+          port: 80
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: kuard
+#  annotations:
+#    cert-manager.io/cluster-issuer: "zerossl"
+#    ingress.kubernetes.io/force-ssl-redirect: "true"
+#    kubernetes.io/ingress.class: "contour"
+#spec:
+#  tls:
+#  - hosts:
+#    - kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#  rules:
+#  - host: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    http:
+#      paths:
+#      - path: /
+#        pathType: Prefix
+#        backend:
+#          service:
+#            name: kuard
+#            port:
+#              number: 80

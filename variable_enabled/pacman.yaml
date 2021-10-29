@@ -111,27 +111,41 @@ spec:
   selector:
     name: pacman
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
 metadata:
   name: pacman
-  annotations:
-    cert-manager.io/cluster-issuer: "zerossl"
-    ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: "contour"
 spec:
-  tls:
-  - hosts:
-    - pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    secretName: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-  rules:
-  - host: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-    http:
-      paths:
-        - pathType: Prefix
-          path: /
-          backend:
-            service:
-              name: pacman
-              port:
-                number: 80
+  virtualhost:
+    fqdn: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    tls:
+      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  routes:
+    - services:
+        - name: pacman
+          port: 80
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: pacman
+#  annotations:
+#    cert-manager.io/cluster-issuer: "zerossl"
+#    ingress.kubernetes.io/force-ssl-redirect: "true"
+#    kubernetes.io/ingress.class: "contour"
+#spec:
+#  tls:
+#  - hosts:
+#    - pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#  rules:
+#  - host: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    http:
+#      paths:
+#        - pathType: Prefix
+#          path: /
+#          backend:
+#            service:
+#              name: pacman
+#              port:
+#                number: 80
