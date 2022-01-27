@@ -119,7 +119,7 @@ spec:
   virtualhost:
     fqdn: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
     tls:
-      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+      secretName: default-http-backend/${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
   routes:
     - services:
         - name: pacman
@@ -137,7 +137,7 @@ spec:
 #  tls:
 #  - hosts:
 #    - pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-#    secretName: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: pacman-${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
 #  rules:
 #  - host: pacman.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
 #    http:

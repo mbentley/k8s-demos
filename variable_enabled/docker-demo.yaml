@@ -47,7 +47,7 @@ spec:
   virtualhost:
     fqdn: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
     tls:
-      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+      secretName: default-http-backend/${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
   routes:
     - services:
         - name: docker-demo
@@ -65,7 +65,7 @@ spec:
 #  tls:
 #  - hosts:
 #    - docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-#    secretName: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: docker-demo-${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
 #  rules:
 #  - host: docker-demo.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
 #    http:

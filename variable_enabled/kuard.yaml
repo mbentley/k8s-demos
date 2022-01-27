@@ -54,7 +54,7 @@ spec:
   virtualhost:
     fqdn: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
     tls:
-      secretName: default-http-backend/${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+      secretName: default-http-backend/${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
   routes:
     - services:
         - name: kuard
@@ -72,7 +72,7 @@ spec:
 #  tls:
 #  - hosts:
 #    - kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
-#    secretName: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+#    secretName: kuard-${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
 #  rules:
 #  - host: kuard.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
 #    http:

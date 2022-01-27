@@ -1,9 +1,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  name: ${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
 spec:
-  secretName: ${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+  secretName: ${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
   dnsNames:
     - "${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"
     - "*.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"

@@ -51,7 +51,7 @@ spec:
   tls:
   - hosts:
     - "*.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"
-    secretName: ${TKG_CLUSTER}.tkg.vmware.work.mbentley.net
+    secretName: ${TKG_CLUSTER}--tkg-vmware-work-mbentley-net
   rules:
   - host: "*.${TKG_CLUSTER}.tkg.vmware.work.mbentley.net"
     http:
