@@ -35,7 +35,7 @@ spec:
                     values:
                       - linux
       containers:
-        - image: mongo:latest
+        - image: mongo:4
           name: mongo
           ports:
             - name: mongo
