@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: test
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
 ---
 apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
